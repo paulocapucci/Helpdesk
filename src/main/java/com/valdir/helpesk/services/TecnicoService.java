@@ -14,6 +14,8 @@ import com.valdir.helpesk.repositories.PessoaRepository;
 import com.valdir.helpesk.repositories.TecnicoRepository;
 import com.valdir.helpesk.services.exceptions.ObjectnotFoundException;
 
+import jakarta.validation.Valid;
+
 @Service
 public class TecnicoService {
 
@@ -37,6 +39,14 @@ public class TecnicoService {
 		validaPorCpfEEmail(objDTO);
 		Tecnico newObj = new Tecnico(objDTO);
 		return repository.save(newObj);
+	}
+
+	public Tecnico update(Integer id, @Valid TecnicoDTO objDTO) {
+		objDTO.setId(id);
+		Tecnico oldObj = findById(id);
+		validaPorCpfEEmail(objDTO);
+		oldObj = new Tecnico(objDTO);
+		return repository.save(oldObj);
 	}
 
 	private void validaPorCpfEEmail(TecnicoDTO objDTO) {
